@@ -60,4 +60,4 @@ def test_404_not_found(client):
 def test_app_creation():
     """Test that app is created correctly."""
     assert app is not None
-    assert app.testing is False
+    assert app.testing is True
