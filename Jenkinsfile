@@ -34,15 +34,13 @@ pipeline {
             steps {
                 echo '====== Building Python application ======'
                 sh '''
-                    sudo apt-get update
-                    sudo apt-get install -y python3-venv python3-pip
                     python3 -m venv venv
-                    . venv/bin/activate
+                  . venv/bin/activate
                     pip install --upgrade pip
                     pip install -r requirements.txt
                 '''
             }
-        }
+        } 
 
         stage('Test') {
             steps {
