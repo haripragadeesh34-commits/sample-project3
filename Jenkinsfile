@@ -143,13 +143,19 @@ pipeline {
                 }
             }
         }
+
+        stage('Cleanup') {
+            steps {
+                script {
+                    echo '====== Cleaning up ======'
+                    sh 'docker logout ${DOCKER_REGISTRY} || true'
+                    cleanWs()
+                }
+            }
+        }
     }
 
     post {
-        always {
-            echo '====== Cleaning up ======'
-            cleanWs()
-        }
         success {
             echo '✓ Pipeline completed successfully'
         }
