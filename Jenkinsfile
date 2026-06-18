@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_REGISTRY = 'docker.io'
-        DOCKER_REPO = 'haripragadeesh34'
+        DOCKER_REPO = 'haripragadeesh'
         IMAGE_NAME = 'python-flask-app'
         IMAGE_TAG = "${BUILD_NUMBER}"
         KUBE_NAMESPACE = 'default'
