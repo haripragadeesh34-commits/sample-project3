@@ -7,7 +7,6 @@ pipeline {
         IMAGE_NAME = 'python-flask-app'
         IMAGE_TAG = "${BUILD_NUMBER}"
         KUBE_NAMESPACE = 'default'
-        DOCKER_CREDENTIALS = credentials('docker-hub-credentials')
     }
 
     parameters {
@@ -73,11 +72,13 @@ pipeline {
         stage('Push to Registry') {
             steps {
                 echo '====== Pushing image to Docker registry ======'
-                sh '''
-                    echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin ${DOCKER_REGISTRY}
-                    docker push ${DOCKER_REGISTRY}/${DOCKER_REPO}/${IMAGE_NAME}:${IMAGE_TAG}
-                    docker push ${DOCKER_REGISTRY}/${DOCKER_REPO}/${IMAGE_NAME}:latest
-                '''
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USR', passwordVariable: 'DOCKER_PSW')]) {
+                    sh '''
+                        echo $DOCKER_PSW | docker login -u $DOCKER_USR --password-stdin ${DOCKER_REGISTRY}
+                        docker push ${DOCKER_REGISTRY}/${DOCKER_REPO}/${IMAGE_NAME}:${IMAGE_TAG}
+                        docker push ${DOCKER_REGISTRY}/${DOCKER_REPO}/${IMAGE_NAME}:latest
+                    '''
+                }
             }
         }
 
