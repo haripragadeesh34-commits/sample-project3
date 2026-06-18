@@ -147,7 +147,7 @@ pipeline {
 
     post {
         always {
-            node {
+            node('any') {
                 echo '====== Cleaning up ======'
                 sh 'docker logout ${DOCKER_REGISTRY} || true'
             }
